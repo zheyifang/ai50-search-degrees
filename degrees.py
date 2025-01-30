@@ -92,8 +92,51 @@ def shortest_path(source, target):
     If no possible path, returns None.
     """
 
-    # TODO
-    raise NotImplementedError
+    # BFS to find any shortest path
+    print(f"source {source}, target: {target}")
+    if source == target:
+        # print(f"source is target, return empty path")
+        return list()
+
+    lastNode = None
+    # node:
+    #   state: person_id
+    #   parent: previous person id
+    #   action: movie_id
+    visited = set()
+    queue = QueueFrontier()
+    queue.add(Node(source, None, None))
+    visited.add(source)
+    while not (lastNode or queue.empty() or queue.contains_state(target)):
+        curr = queue.remove()
+        # print(f"process node {curr.state} ...")
+        for neighbor in neighbors_for_person(curr.state):
+            mid = neighbor[0]
+            nid = neighbor[1]
+            if nid == target:
+                # print(f"found target {target}")
+                lastNode = Node(nid, curr, mid)
+                break
+            if nid not in visited:
+                visited.add(nid)
+                node = Node(nid, curr, mid)
+                queue.add(node)
+                # print(f"add node {node.state} into queue")
+
+
+    if not lastNode:
+        return None
+    
+    res = list()
+    # print(f"recording path...")
+    while lastNode.parent:
+        print(f"({lastNode.action}, {lastNode.state})")
+        res.append((lastNode.action, lastNode.state))
+        lastNode = lastNode.parent
+    
+    return res[::-1]
+
+
 
 
 def person_id_for_name(name):
