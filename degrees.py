@@ -91,7 +91,6 @@ def shortest_path(source, target):
 
     If no possible path, returns None.
     """
-
     # BFS to find any shortest path
     print(f"source {source}, target: {target}")
     if source == target:
@@ -122,7 +121,6 @@ def shortest_path(source, target):
                 node = Node(nid, curr, mid)
                 queue.add(node)
                 # print(f"add node {node.state} into queue")
-
 
     if not lastNode:
         return None
